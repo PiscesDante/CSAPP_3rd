@@ -155,3 +155,38 @@ typedef struct {
 **<u>普通文件描述符和 Socket 的主要区别就是应用打开两者的方式</u>** 。
 
 ## Socket 地址结构
+
+
+
+## Socket 接口： `socket`
+
+客户端和服务器使用 `socket` 函数来创建一个 Socket 文件描述符：
+
+```C
+int socket(int domain, int type, int protocol);
+
+/* EXAMPLE: */
+int client_file_descriptor = socket(AF_INET, SOCK_STREAM, 0);
+/* AF_INET: 指定网络层协议，使用 IPv4 版本的 IP 协议 */
+/* SOCK_STREAM: 指定传输层协议，使用 TCP 协议 */
+```
+
+## Socket 接口： `bind`
+
+服务器使用 `bind` 函数来请求操作系统内核将 Socket 地址和 Socket 描述符绑定起来：
+
+```C
+int bind(int sockfd, SA* addr, socklen_t addrlen);
+```
+
+完成绑定之后，进程就可以通过文件描述符 `sockfd` 来读取来自地址 `addr` 传输过来的字节了（写是同样地原理）。
+
+这个 `addrlen` 参数最好不要自己指定，而是通过调用相关的函数来获取，这样可以让程序自适应 IPv4 和 IPv6 等多个版本。
+
+## Socket 接口： `listen`
+
+
+
+##Socket 接口： `accept`
+
+`accept` 函数将返回一个已经连接的文件描述符，通过这个返回的文件描述符，我们可以同已经连接的客户端进行基于 Unix I/O 规则的通信。
